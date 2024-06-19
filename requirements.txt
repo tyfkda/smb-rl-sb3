@@ -1,0 +1,5 @@
+gym-super-mario-bros/dist/gym_super_mario_bros-8.0.0.tar.gz
+pandas>=2.2, <3.0
+stable_baselines3>=2.3, <3.0
+sb3-contrib>=2.3, <3.0
+tensorboard>=2.17, <3.0
