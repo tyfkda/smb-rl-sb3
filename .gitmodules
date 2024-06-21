@@ -1,0 +1,6 @@
+[submodule "nes-py"]
+	path = nes-py
+	url = git@github.com:tyfkda/nes-py.git
+[submodule "gym-super-mario-bros"]
+	path = gym-super-mario-bros
+	url = git@github.com:tyfkda/gym-super-mario-bros.git
