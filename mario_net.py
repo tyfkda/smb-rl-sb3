@@ -86,17 +86,26 @@ class MarioNet(BaseFeaturesExtractor):
     def __init__(self, observation_space: gym.spaces.Box, features_dim):
         super(MarioNet, self).__init__(observation_space, features_dim)
         n_input_channels = observation_space.shape[0]
+        nfeat1 = 32
+        nfeat2 = 64
         self.cnn = nn.Sequential(
-            nn.Conv2d(n_input_channels, 32, kernel_size=3, stride=2, padding=1),
+            # nn.Conv2d(n_input_channels, nfeat1, kernel_size=3, stride=2, padding=1),
+            # nn.ReLU(),
+            # nn.Conv2d(nfeat1, nfeat2, kernel_size=3, stride=2, padding=1),
+            # nn.ReLU(),
+            # nn.Conv2d(nfeat2, nfeat2, kernel_size=3, stride=2, padding=1),
+            # nn.ReLU(),
+            # nn.Conv2d(nfeat, nfeat, kernel_size=3, stride=2, padding=1),
+            # nn.ReLU(),
+
+            nn.Conv2d(n_input_channels, nfeat1, kernel_size=8, stride=4),
             nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
+            nn.Conv2d(nfeat1, nfeat2, kernel_size=4, stride=2),
             nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
+            nn.Conv2d(nfeat2, nfeat2, kernel_size=3, stride=1),
             nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
-            nn.ReLU(),
-            nn.Flatten(),
-        )
+
+            nn.Flatten())
 
         # Compute shape by doing one forward pass
         with th.no_grad():
