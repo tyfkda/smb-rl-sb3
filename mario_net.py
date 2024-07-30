@@ -76,6 +76,9 @@ class CustomRewardAndDoneEnv(gym.Wrapper):
         if info['life'] < 2:
             reward -= 500
             truncated = True
+        point = info['score'] - self.current_score
+        reward += point
+
         self.current_score = info['score']
         self.current_x = x_pos
         self.max_x = max(self.max_x, self.current_x)
