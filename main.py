@@ -14,6 +14,7 @@ import stable_baselines3
 from stable_baselines3.common.callbacks import BaseCallback
 import sb3_contrib
 import torch as th
+import random
 
 from mario_net import create_mario_env, MarioNet
 
@@ -162,7 +163,12 @@ def replay(sb3_class, skip_frame_count=4, seed=None, render_mode=None):
             state = env.reset()
             if info[0]["flag_get"]:
                 wins += 1
+                print(f'GOAL seed={seed}')
+                exit(0)
             plays += 1
+
+            seed = random.randint(-0x8000_0000_0000_0000, 0xffff_ffff_ffff_ffff)
+            print(f'plays={plays}, seed={seed}')
 
             if seed:
                 th.manual_seed(seed)
