@@ -86,7 +86,7 @@ class MarioNet(BaseFeaturesExtractor):
     def __init__(self, observation_space: gym.spaces.Box, features_dim):
         super(MarioNet, self).__init__(observation_space, features_dim)
         n_input_channels = observation_space.shape[0]
-        nfeat1 = 32
+        nfeat1 = 64
         nfeat2 = 64
         self.cnn = nn.Sequential(
             # nn.Conv2d(n_input_channels, nfeat1, kernel_size=3, stride=2, padding=1),
