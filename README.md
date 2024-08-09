@@ -1,3 +1,5 @@
+smb-rl-sb3
+==========
 
 ### 要件
 
@@ -49,8 +51,28 @@ $ python main.py --movement simple --sb3_algo PPO
 $ python main.py --movement simple --sb3_algo PPO --replay
 ```
 
+### 学習例
+
+<https://youtu.be/mlSjsejrrZY>
+
+[![スーパーマリオのクッパ面を強化学習でクリア](http://img.youtube.com/vi/mlSjsejrrZY/0.jpg)](https://www.youtube.com/watch?v=mlSjsejrrZY)
+
+#### 学習済みデータを動かすには
+
+gitのブランチ`feature/world1-4`をチェックアウトして、
+
+```sh
+$ python main.py --movement complex --sb3_algo PPO \
+  --color --skip-frame=2 --stage=4 \
+  --replay=trained_model/model_world1-4.zip \
+  --seed=12699629529116784663
+```
 
 ### 参考
 
   * [PyTorchチュートリアル（日本語翻訳版）](https://yutaroogawa.github.io/pytorch_tutorials_jp/)
   * [Super Mario Bros. with Stable-Baseline3 PPO](https://www.kaggle.com/code/deeplyai/super-mario-bros-with-stable-baseline3-ppo)
+
+### ブログ記事
+
+[スーパーマリオの強化学習を動かす（Stable Baselines 3）](https://tyfkda.github.io/blog/2024/08/07/smb-rl-sb3.html)
