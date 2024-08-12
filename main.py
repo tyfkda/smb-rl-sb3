@@ -118,21 +118,24 @@ def save_png(screen, filename):
     im = Image.fromarray(screen)
     im.save(filename, 'PNG')
 
-def replay(sb3_class, skip_frame_count=4, seed=None, render_mode=None):
-    reward_log = pd.read_csv(reward_log_path.absolute(), index_col='timesteps')
-    # target_epoch = reward_log.index[len(reward_log.index) - 1]  # 最後のエポックを選択する場合
-    target_epoch = reward_log['reward'].idxmax()  # 平均報酬が最大のエポックを選択する場合
-    # target_epoch = reward_log['best_reward'].idxmax()  # 最高報酬が最大のエポックを選択する場合
+def replay(sb3_class, model_path=None, skip_frame_count=4, seed=None, render_mode=None):
+    if model_path is None:
+        reward_log = pd.read_csv(reward_log_path.absolute(), index_col='timesteps')
+        # target_epoch = reward_log.index[len(reward_log.index) - 1]  # 最後のエポックを選択する場合
+        target_epoch = reward_log['reward'].idxmax()  # 平均報酬が最大のエポックを選択する場合
+        # target_epoch = reward_log['best_reward'].idxmax()  # 最高報酬が最大のエポックを選択する場合
 
-    reward = reward_log.loc[target_epoch]['reward']
-    best_reward = reward_log.loc[target_epoch]['best_reward']
-    print(f'target epoch:{target_epoch}, reward:{reward}, best:{best_reward}')
+        reward = reward_log.loc[target_epoch]['reward']
+        best_reward = reward_log.loc[target_epoch]['best_reward']
+        print(f'target epoch:{target_epoch}, reward:{reward}, best:{best_reward}')
+
+        model_path = save_dir / f'best_model_{target_epoch}.zip'
 
     if seed:
         th.manual_seed(seed)
 
-    best_model_path = save_dir / f'best_model_{target_epoch}'
-    model = sb3_class.load(best_model_path, env=env)
+    print(model_path)
+    model = sb3_class.load(model_path, env=env)
 
     png_dir = 'frames'
     frame_index = 0
@@ -211,7 +214,7 @@ if __name__ == '__main__':
     parser.add_argument('--movement', default='simple', help='simple, complex or dash')
     parser.add_argument('--world', help='world', type=int, default=1)
     parser.add_argument('--stage', help='stage', type=int, default=1)
-    parser.add_argument('--replay', help='Replay mode', action='store_true')
+    parser.add_argument('--replay', help='Replay mode', nargs='?', default=False)
     parser.add_argument('--render-mode', help='Rendering mode for replay (e.g. png)', type=str)
     parser.add_argument('--seed', help='Random seed for replay mode', type=int, default=None)
     parser.add_argument('--plot', help='Plot mode', nargs='?', default=False)
@@ -231,8 +234,8 @@ if __name__ == '__main__':
     print(f'RL Algorithm: {args.sb3_algo}')
     sb3_class = find_sb3_class(args.sb3_algo)
 
-    if args.replay:
-        replay(sb3_class, args.skip_frame, args.seed, args.render_mode)
+    if args.replay != False:
+        replay(sb3_class, args.replay, args.skip_frame, args.seed, args.render_mode)
     elif args.plot != False:
         log_path = args.plot if args.plot else reward_log_path
         reward_log = pd.read_csv(log_path, index_col='timesteps')
