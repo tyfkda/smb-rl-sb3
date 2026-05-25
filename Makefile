@@ -18,12 +18,15 @@ replay:
 
 .PHONY: setup-gym-smb
 setup-gym-smb:	make-nes-py
-	sed -i.bak "s%^nes-py.*%$(shell pwd)/nes-py/dist/nes_py-8.2.1.tar.gz%" gym-super-mario-bros/requirements.txt
+	sed -i.bak "s%^nes-py.*%$(shell pwd)/nes-py/dist/nes_py-9.0.0.tar.gz%" gym-super-mario-bros/requirements.txt
 	rm -f gym-super-mario-bros/requirements.txt.bak
-	cd gym-super-mario-bros; pip install -r requirements.txt && make deployment
+	cd gym-super-mario-bros; pip install -r requirements.txt && \
+		python -m build
 
 .PHONY: make-nes-py
 make-nes-py:
 	# venv must be activated
 	pip install setuptools
-	cd nes-py && pip install -r requirements.txt && make
+	cd nes-py && pip install -r requirements.txt && \
+		python -m pip install --editable . --config-settings=editable.mode=inplace && \
+		./main.sh clean && python -m build

@@ -3,7 +3,7 @@ smb-rl-sb3
 
 ### 要件
 
-  * Python 3.12＋仮想環境
+  * Python 3.14＋仮想環境
   * Cコンパイラ (nes-py用)
 
 #### GLU
@@ -43,6 +43,12 @@ $ python play_randomly.py
 
 ```sh
 $ python main.py --movement simple --sb3_algo PPO
+```
+
+### 報酬経過図示
+
+```sh
+$ python main.py --plot
 ```
 
 ### 再生

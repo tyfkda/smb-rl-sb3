@@ -5,7 +5,7 @@ import gym_super_mario_bros
 from nes_py.wrappers import JoypadSpace
 import gymnasium as gym
 
-from gymnasium.wrappers import GrayScaleObservation
+from gymnasium.wrappers.transform_observation import GrayscaleObservation
 from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv
 
 import torch as th
@@ -116,15 +116,15 @@ class MarioNet(BaseFeaturesExtractor):
     def forward(self, observations: th.Tensor) -> th.Tensor:
         return self.linear(self.cnn(observations))
 
-def create_mario_env(stage_name, movement, skip_frame_count = 0, is_color = False):
-    env = gym_super_mario_bros.make(stage_name)
+def create_mario_env(stage_name, movement, skip_frame_count = 0, is_color = False, render_mode=None):
+    env = gym_super_mario_bros.make(stage_name, render_mode=render_mode)
     env0 = env
     env = JoypadSpace(env, movement)
     env = CustomRewardAndDoneEnv(env)
     if skip_frame_count > 1:
         env = SkipFrame(env, skip=skip_frame_count)
     if not is_color:
-        env = GrayScaleObservation(env, keep_dim=True)
+        env = GrayscaleObservation(env, keep_dim=True)
     env = ResizeEnv(env, size=84)
     env = DummyVecEnv([lambda: env])
     env = VecFrameStack(env, 4, channels_order='last')
