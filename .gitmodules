@@ -3,4 +3,4 @@
 	url = git@github.com:tyfkda/nes-py.git
 [submodule "gym-super-mario-bros"]
 	path = gym-super-mario-bros
-	url = git@github.com:tyfkda/gym-super-mario-bros.git
+	url = git@github.com:Kautenja/gym-super-mario-bros.git

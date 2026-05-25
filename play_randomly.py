@@ -12,7 +12,7 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 # world = random.randint(1, 8)
 # stage = random.randint(1, 4)
 # env = gym_super_mario_bros.make(f'SuperMarioBros-{world}-{stage}-v0')
-env = gym_super_mario_bros.make(f'SuperMarioBrosRandomStages-v0')
+env = gym_super_mario_bros.make(f'SuperMarioBrosRandomStages-v0', render_mode='human')
 env = JoypadSpace(env, SIMPLE_MOVEMENT)
 
 done = True
